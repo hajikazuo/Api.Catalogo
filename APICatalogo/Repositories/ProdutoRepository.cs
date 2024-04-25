@@ -26,15 +26,41 @@ namespace APICatalogo.Repositories
         }
         public Produto Create(Produto produto)
         {
-            throw new NotImplementedException();
+            if (produto is null)
+            {
+                throw new InvalidOperationException("Produto nulo");
+            }
+
+            _context.Produtos.Add(produto);
+            _context.SaveChanges();
+            return produto;
         }
         public bool Update(Produto produto)
         {
-            throw new NotImplementedException();
+            if (produto is null)
+            {
+                throw new InvalidOperationException("Produto nulo");
+            }
+
+            if(_context.Produtos.Any(p=>p.ProdutoId == produto.ProdutoId))
+            {
+                _context.Produtos.Update(produto);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
         }
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            var produto = _context.Produtos.Find(id);
+
+            if(produto is not null)
+            {
+                _context.Produtos.Remove(produto);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
         }       
     }
 }
