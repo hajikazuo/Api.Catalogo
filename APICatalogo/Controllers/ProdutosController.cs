@@ -3,6 +3,7 @@ using APICatalogo.Models;
 using APICatalogo.Pagination;
 using APICatalogo.Repositories;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using X.PagedList;
@@ -67,6 +68,7 @@ public class ProdutosController : ControllerBase
         return Ok(produtosDto);
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProdutoDTO>>> Get()
     {
@@ -128,6 +130,7 @@ public class ProdutosController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
+    [Authorize(Policy = "AdminOnly")]
     public async Task<ActionResult<ProdutoDTO>> Delete(int id)
     {
        var produto = await _unitOfWork.ProdutoRepository.GetAsync(p=> p.ProdutoId == id);
