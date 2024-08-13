@@ -82,8 +82,13 @@ public class ProdutosController : ControllerBase
     }
 
     [HttpGet("{id}", Name = "ObterProduto")]
-    public async Task<ActionResult<ProdutoDTO>> Get(int id)
+    public async Task<ActionResult<ProdutoDTO>> Get(int? id)
     {
+        if (id == null || id <= 0)
+        {
+           return BadRequest("ID de produto inválido");
+        }
+
         var produto = await _unitOfWork.ProdutoRepository.GetAsync(c=> c.ProdutoId == id);
         if (produto is null)
         {
