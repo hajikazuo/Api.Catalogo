@@ -23,7 +23,7 @@ namespace APICatalogoxUnitTests.UnitTests
         public async Task GetProdutoById_OKResult()
         {
             // Arrange
-            var produtoId = 2;
+            var produtoId = 1;
 
             // Act
             var data = await _controller.Get(produtoId);
